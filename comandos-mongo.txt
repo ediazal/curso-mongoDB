@@ -1,0 +1,73 @@
+db
+show dbs
+use (dbname)
+show collections
+db.alumnos.find({nombre:"David", ciudad:"Sevilla"}) // CONDICION AND 
+db.alumnos.find({$and:[{nombre:"David"}, {ciudad:"Madrid"}]}) // CONDICION AND
+db.alumnos.find({$or:[{nombre:"David"}, {ciudad: "Madrid"}]}) // CONDICION OR
+db.alumnos.find({})
+cursor = db.alumnos.find() // mete el resultado en la variable
+db.alumnos.find({$nor:[{nombre:"David"}, {ciudad:"Madrid"}]}) // CONDICION NOR
+db.alumnos.find({nombre:12})
+db.alumnos.insert({nombre:"Alfredo", edad:12})
+db.alumnos.insert({nombre:"Alicia", edad:"15"})
+db.alumnos.find({edad:12})
+db.alumnos.find{edad:15} // este no sale
+db.alumnos.find{edad:"15"} // este sale
+db.alumnos.find({edad: {$gt:11}})
+db.alumnos.find({edad: {$lt:12}})
+db.alumnos.find({edad: {$lt:15}})
+db.alumnos.find({apellido:{$exists:true}})
+db.alumnos.find({edad:{$exists:1}})
+db.alumnos.find({edad:{$exists:0}})
+db.alumnos.find({edad{$type:2}}) // tipo cadena
+db.alumnos.find({edad{$type:1}}) // tipo numero
+db.alumnos.find({nombre{$type:2}}) // tipo cadena
+db.alumnos.find({nombre{$type:1}}) // tipo numero
+db.contactos.insertMany([{nombre:"Pablo"},{nombre:"Patricia"},{nombre:"Pedro"}])
+db.contactos.find({nombre:/a/}) // expresion regular
+db.contactos.find({nombre:/^Pa/}) // devuelve los que empiecen con Pa
+db.contactos.find({nombre:/o$/}) // devuelve los que terminen con o
+db.contactos.find({nombre:/ro$/})
+db.contactos.find({nombre:/Pablo/})
+db.contactos.find({nombre:/PablO/})
+db.contactos.find($and:[{nombre:/a/},{nombre:/o$/}]})
+db.contactos.find($or:[{nombre:/a/},{nombre:/o$/}]})
+db.alumnos.find({nombre:"David"},{nombre:1}) // Solo saca el atb nombre
+db.alumnos.find({nombre:/a/}, {nombre:0, edad:0})
+db.alumnos.find({nombre:/a/}, {_id:0, nombre:1})
+db.alumnos.find({nombre:/a/}, {_id:1})
+db.alumnos.find({}, {nombre:1, _id:0})
+db.alumnos.find({}).count()
+db.alumnos.find({nombre:"David"}).count()
+db.alumnos.countDocuments({})
+db.alumnos.countDocuments({nombre:"David"})
+db.alumnos.count()
+db.alumnos.distinct("nombre")
+db.alumnos.find().sort({nombre:1}) // ordenar por nombre DESC
+db.alumnos.find().sort({nombre:-1}) // ascendiente
+db.alumnos.find().sort({nombre:1, ciudad:1}) // ordenar por nomnbre y ciudad
+db.alumnos.find().limit(5) // devuelve los primeros 5
+db.alumnos.find().sort({nombre:1}).limit(5)
+db.alumnos.find().skip(1) // se salta el primero
+db.alumnos.find().sort({nombre:1}).skip(1)
+db.alumnos.find().sort({nombre:1}).skip(1).limit(3) // se puede usar para paginar
+db.alumnos.find({},{},2,4).sort({nombre:1})
+db.alumnos.insertOne({nombre:"Mario", edad:20, ciudad:"Caceres", profesion: "informatico", nacionalidad, "española", dni:"55555555", telefono:"666666"})
+db.alumnos.find({nombre:"Mario"}).pretty()
+db.alumnos.remove({"nombre":"Hugo"}) // borrar
+db.alumnos.deleteOne({"nombre":"Pedro"}) // borrar solo uno
+db.alumnos.deleteMany({nombre:"Rafael"}) // borra todos los que cumplan la condicion
+// deleteMany() es igual que remove()
+db.alumnos.remove({nombre:"David"},{justOne:true}) // otra forma de borrar solo uno
+db.contactos.remove({}) // borra todos
+db.contactos.deletetMany({}) // borra todos
+db.contactos.deleteOne() // borra uno
+db.contactos.drop() // borra la coleccion
+db.dropDatabase() // borra la base de datos
+db.alumnos.update({nombre:"Pedro"}, {$set:{nombre:"Pedro Sanchez"}}) // actualizacion
+db.alumnos.update({nombre:"Pedro Sanchez"}, {nombre:"Pedro", apellido:"Sanchez"})
+db.alumnos.update({nombre:"Pedro Sanchez"}, {nombre:"Pedro", apellido:"Sanchez"},{upsert:1}) // upsert
+db.alumnos.updateOne({nombre:"Pedro"}, {$set:{nombre:"Pedro Martin"}}) // actualiza solo uno
+db.alumnos.update({},{$rename:{"edad":"age"}},{multi:1}) // cambia el nombre de "edad" a "age"
+db.alumnos.update({},{$rename:{"age":"edad"}},{multi:1})

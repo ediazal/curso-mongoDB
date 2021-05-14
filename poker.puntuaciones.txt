@@ -1,0 +1,57 @@
+{
+    nombre:     'Ricardo', 
+    ganadas:    3,
+    perdidas:   3, 
+    retiradas:  9, 
+    dinero:     15,
+    mejores:    ['1 trío', '2 pares'],
+    comentarios:[
+        {
+            hora:   '22:10:10',
+            texto:  'Hoy será mi día de suerte'
+        },{
+            hora:   '23:50:32',
+            texto:  'Quizás otro día'
+        }
+    ]
+}
+
+
+
+{
+    nombre:     'Ramses', 
+    ganadas:    8, 
+    perdidas:   4, 
+    retiradas:  3, 
+    dinero:     120,
+    mejores:    ['Escalera real', 'Full house'],
+    comentarios:[
+        {
+            hora:   '22:12:56',
+            texto:  'Los humillaré a todos'
+        },{
+            hora:   '23:55:59',
+            texto:  'Gracias por darme su dinero'
+        }
+    ]
+}
+
+
+
+{
+    nombre:     'Oscar',
+    ganadas:    4, 
+    perdidas:   6, 
+    retiradas:  5, 
+    dinero:     30,
+    mejores:    ['Full house', '1 trío'],
+    comentarios:[
+        {
+            hora:   '22:09:12',
+            texto:  '¿En realidad vamos a jugar nada mas para mostrar un ejemplo de Mongo?'
+        },{
+            hora:   '23:59:59',
+            texto:  'ZZZZZZzzzzzzz'
+        }
+    ]
+}

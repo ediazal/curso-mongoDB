@@ -1,0 +1,15 @@
+db.ordenes.aggregate([{$match:{monto:{$gt:200}}},
+                      {$unwind:"$articulos"},
+                      {$group:{
+                        _id:"$articulos",
+                        cantidad_promedio:{$avg:"$monto"},
+                        cantidad_ordenes:{$sum:1},
+                        compradores:{$addToSet:"$id_cliente"}
+                               }
+                      },
+                      {$sort:{cantidad_promedio:-1,cantidad_ordenes:-1}},
+                      {$skip:3},
+                      {$limit:2}
+                      ])
+
+          

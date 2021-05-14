@@ -1,0 +1,44 @@
+C:\MONGODB>cd cluster
+C:\MONGODB\cluster>cd rep01
+C:\MONGODB\cluster\rep01>cd conf
+C:\MONGODB\cluster\rep01\conf>mongod --config mongod.cfg
+
+C:\Users\34622>cd C:\MONGODB\cluster\rep02\conf
+C:\MONGODB\cluster\rep02\conf>mongod --config mongod.cfg
+
+C:\Users\34622>cd C:\MONGODB\cluster\rep03\conf
+C:\MONGODB\cluster\rep03\conf>mongod --config mongod.cfg
+
+mongo --port 20001
+rs.initiate()
+rs.isMaster() // primario
+rs.conf() // es un doc estatico
+rs.status() // es un doc actualizado en tiempo real
+
+mongo --port 20002
+
+mongo --port 20001
+rs.add("localhost:20002")
+mongo --port 20002 // secundario
+mongo --port 20001
+rs.add("localhost:20003") 
+rs.conf()
+rs.addArb("localhost:20004") // añadir un arbitro
+rs.stepDown() // el primario deja de ser primario
+rs.status()
+mongo --port 20002 // ahora es el primario
+rs.remove("localhost:20001") // quita un nodo del cluster
+rs.add("localhost:20001") // vuelve a meter el nodo
+
+mongo --host miRS/localhost:20001,localhost:20002,localhost:20003 // busca el primario
+mongo --host miRS/localhost:20001 // se conecta tambien al primario
+mongo --host miRS/localhost:20001111 // esto falla
+
+db.restaurants.find().readPref("secondary").limit(1)
+db.restaurants.find().readPref("primary").limit(1)
+db.restaurants.find().readPref("primaryPreferred").limit(1)
+db.restaurants.find().readPref("secondaryPreferred").limit(1)
+
+use local
+show collections
+db.oplog.rs.find().limit(1)

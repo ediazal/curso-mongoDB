@@ -1,0 +1,59 @@
+
+Estructura de los documentos de la colección 'restaurants': 
+
+
+{
+  "address": {
+     "building": "1007",
+     "coord": [ -73.856077, 40.848447 ],
+     "street": "Morris Park Ave",
+     "zipcode": "10462"
+  },
+  "borough": "Bronx",
+  "cuisine": "Bakery",
+  "grades": [
+     { "date": { "$date": 1393804800000 }, "grade": "A", "score": 2 },
+     { "date": { "$date": 1378857600000 }, "grade": "A", "score": 6 },
+     { "date": { "$date": 1358985600000 }, "grade": "A", "score": 10 },
+     { "date": { "$date": 1322006400000 }, "grade": "A", "score": 9 },
+     { "date": { "$date": 1299715200000 }, "grade": "B", "score": 14 }
+  ],
+  "name": "Morris Park Bake Shop",
+  "restaurant_id": "30075445"
+}
+
+Importamos los documentos que tenemos para los ejercicios:
+
+
+c:\mongoimport -d practica1 -c restaurants c:\mongodb\retaurants.json
+
+
+
+1. Escribir una consulta MongoDB para mostrar todos los documentos de la coleccion restaurants.
+
+	db.restaurants.find({})
+
+2. Escribir una consulta MongoDB para mostrar los campos restaurant_id, name, borough y cuisine para todos los documentos en la colección restaurants.
+
+	db.restaurants.find({}, {restaurant_id:1, name:1, borough:1, cuisine:1})
+
+3. Escribir una consulta MongoDB para mostrar los campos restaurant_id, name, borough y cuisine, pero sin mostrar el campo _id en todos los documentos de la colección restaurant.
+
+	db.restaurants.find({}, {restaurant_id:1, name:1, borough:1, cuisine:1, _id:0})
+
+4. Escribir una consulta MongoDB para mostrar los campos restaurant_id, name, borough y zipcode, pero sin mostrar el campo _id en todos los documentos de la colección restaurant. Nota: para acceder al autributo de un subdocumento, utilizamos el punto y entrecomillado, ejemplo: "address.zipcode"
+
+	db.restaurants.find({}, {restaurant_id:1, name:1, borough:1, "address.zipcode":1, _id:0})
+
+5. Escribir una consulta MongoDB para mostrar todos los restaurantes que esten en el barrio (borough) del Bronx.
+
+	Pregunta: es lo mismo >db.restaurants.find({borough:"Bronx"}) que >db.restaurants.find({borough:{$eq:"Bronx"}}) ?? Sí
+
+6. Escribir una consulta MongoDB para mostrar los cinco primeros (segun se guardaron) restaurantes del barrio (borough) del Bronx.
+
+	db.restaurants.find({borough:"Bronx"}).limit(5)
+
+7. Escribir una consulta MongoDB para mostrar los siguientes cinco restaurantes (segun se guardaron) del barrio (borough) del Bronx, saltandonos los 5 primeros vistos anteriormente.
+
+	db.restaurants.find({borough:"Bronx"}).skip(5).limit(5)
+

@@ -1,0 +1,56 @@
+use ttl
+db.docfantasma.insert({fechaMuerte: new Date(), mensaje:"buuu"})
+db.docfantasma.insert({fechaMuerte: new Date(), mensaje:"blablabla"})
+db.docfantasma.createIndex({fechaMuerte:1}, {expireAfterSeconds:120})
+db.docfantasma.find()
+
+db.docfantasma2.insert({fechaMuerte: ISODate("2021-05-11T15:36")})
+db.docfantasma2.createIndex({fechaMuerte:1},{expireAfterSeconds:0})
+db.docfantasma2.find()
+
+
+MongoDB Enterprise > use capped
+switched to db capped
+MongoDB Enterprise > db.createCollection("eventos",{capped:true, size:1000000,max:5});
+{ "ok" : 1 }
+MongoDB Enterprise > show collections
+eventos
+MongoDB Enterprise > db.eventos.find()
+MongoDB Enterprise > db.eventos.isCapped()
+true
+MongoDB Enterprise > db.eventos.getIndexes()
+[ { "v" : 2, "key" : { "_id" : 1 }, "name" : "_id_" } ]
+MongoDB Enterprise > db.eventos.insert({num:1})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.insert({num:2})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.insert({num:3})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.insert({num:4})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.insert({num:5})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.find()
+{ "_id" : ObjectId("609aa954f7cc3393e9215bd0"), "num" : 1 }
+{ "_id" : ObjectId("609aa956f7cc3393e9215bd1"), "num" : 2 }
+{ "_id" : ObjectId("609aa958f7cc3393e9215bd2"), "num" : 3 }
+{ "_id" : ObjectId("609aa95bf7cc3393e9215bd3"), "num" : 4 }
+{ "_id" : ObjectId("609aa95df7cc3393e9215bd4"), "num" : 5 }
+MongoDB Enterprise > db.eventos.insert({num:6})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.find()
+{ "_id" : ObjectId("609aa956f7cc3393e9215bd1"), "num" : 2 }
+{ "_id" : ObjectId("609aa958f7cc3393e9215bd2"), "num" : 3 }
+{ "_id" : ObjectId("609aa95bf7cc3393e9215bd3"), "num" : 4 }
+{ "_id" : ObjectId("609aa95df7cc3393e9215bd4"), "num" : 5 }
+{ "_id" : ObjectId("609aa96cf7cc3393e9215bd5"), "num" : 6 }
+MongoDB Enterprise > db.eventos.insert({num:7})
+WriteResult({ "nInserted" : 1 })
+MongoDB Enterprise > db.eventos.find()
+{ "_id" : ObjectId("609aa958f7cc3393e9215bd2"), "num" : 3 }
+{ "_id" : ObjectId("609aa95bf7cc3393e9215bd3"), "num" : 4 }
+{ "_id" : ObjectId("609aa95df7cc3393e9215bd4"), "num" : 5 }
+{ "_id" : ObjectId("609aa96cf7cc3393e9215bd5"), "num" : 6 }
+{ "_id" : ObjectId("609aa99ef7cc3393e9215bd6"), "num" : 7 }
+
+

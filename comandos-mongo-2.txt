@@ -1,0 +1,129 @@
+show dbs 
+use test
+show collections
+db.contactos2.renameCollection("contactos") // renombrar una colección
+
+db.alumnos.getIndexes() // Mostrar los indices de una colección
+
+use poker
+db.puntuaciones.insert({
+    nombre:     'Ricardo', 
+    ganadas:    3,
+    perdidas:   3, 
+    retiradas:  9, 
+    dinero:     15,
+    mejores:    ['1 trío', '2 pares'],
+    comentarios:[
+        {
+            hora:   '22:10:10',
+            texto:  'Hoy será mi día de suerte'
+        },{
+            hora:   '23:50:32',
+            texto:  'Quizás otro día'
+        }
+    ]
+})
+db.puntuaciones.insert({
+    nombre:     'Ramses', 
+    ganadas:    8, 
+    perdidas:   4, 
+    retiradas:  3, 
+    dinero:     120,
+    mejores:    ['Escalera real', 'Full house'],
+    comentarios:[
+        {
+            hora:   '22:12:56',
+            texto:  'Los humillaré a todos'
+        },{
+            hora:   '23:55:59',
+            texto:  'Gracias por darme su dinero'
+        }
+    ]
+})
+db.puntuaciones.insert({
+    nombre:     'Oscar',
+    ganadas:    4, 
+    perdidas:   6, 
+    retiradas:  5, 
+    dinero:     30,
+    mejores:    ['Full house', '1 trío'],
+    comentarios:[
+        {
+            hora:   '22:09:12',
+            texto:  '¿En realidad vamos a jugar nada mas para mostrar un ejemplo de Mongo?'
+        },{
+            hora:   '23:59:59',
+            texto:  'ZZZZZZzzzzzzz'
+        }
+    ]
+})
+db.puntuaciones.find().pretty()
+db.puntuaciones.getIndexes()
+db.puntuaciones.find().limit(1).pretty()
+db.puntuaciones.createIndex({dinero:1}) // crea indice ascendente por dinero
+db.puntuaciones.getIndexes()
+db.puntuaciones.find({dinero:{$gt:50}})
+db.puntuaciones.createIndex({perdidas:1, retiradas:1}) // indice compuesto
+db.puntuaciones.getIndexes()
+db.puntuaciones.find({perdidas:{$gt:3}}).pretty()
+db.puntuaciones.createIndex({mejores:1}) // indice multikey
+db.puntuaciones.getIndexes()
+db.puntuaciones.find({mejores:"Full house"})
+db.puntuaciones.createIndex({"comentarios.texto":1})
+db.puntuaciones.find({"comentarios.texto":"Gracias por darme su dinero"})
+db.puntuaciones.createIndex({nombre:1},{unique:true})// unicidad 
+db.puntuaciones.insert({nombre:"Ramses"})
+WriteResult({
+        "nInserted" : 0,
+        "writeError" : {
+                "code" : 11000,
+                "errmsg" : "E11000 duplicate key error collection: poker.puntuaciones index: nombre_1 dup key: { nombre: \"Ramses\" }"
+        }
+})
+db.puntuaciones.find({}, {_id:0, nombre:1})
+db.puntuaciones.find({nombre:"Oscar"},{_id:1})
+db.puntuaciones.insert({nombre:"hugo"})
+db.puntuaciones.find({}, {_id:0, nombre:1})
+db.puntuaciones.createIndex({ganadas:1},{sparse:true}) // solo crea un indice que en el arbol-B solamente con aquellos documentos que tengan el atributo "ganadas"
+db.puntuaciones.find({},{nombre:1}).sort({ganadas:1})
+db.puntuaciones.find({ganadas:{$gt:3}},{nombre:1})
+db.puntuaciones.createIndex({nombre:1, ganadas:1},{background:true}) // lo crea cuando hay menos actividad
+db.puntuaciones.reIndex() // reconstruye los indices ["indices fragmentados"]. El background se sigue aplicando
+db.puntuaciones.find({},{nombre:1}).sort({ganadas:1}).explain() // explica como ha realizado la consulta
+db.puntuaciones.find({nombre:"hugo"}).explain() // pasa por el indice
+//    "inputStage" : {
+//                                "stage" : "IXSCAN",
+db.puntuaciones.find({mejores:"Full house"}).explain() // igual
+db.puntuaciones.createIndex({"comentarios.texto":1}) // el indice que estaba mal
+db.puntuaciones.dropIndex("comentario.texto_1") // borra un indice
+db.puntuaciones.find({ganadas:{$gt:3}})
+db.puntuaciones.find({ganadas:{$gt:3}}).explain()
+
+db.puntuaciones.find({}, {nombre:1, _id:0}).sort({ganadas:1}).hint({ganadas:1}).explain() // con el hint le fuerza a que pase por el índice
+db.puntuaciones.find({}, {nombre:1, ganadas:1,_id:0}).hint({ganadas:1})
+db.puntuaciones.dropIndex("ganadas_1")
+db.puntuaciones.dropIndexes() // borra todos los índices
+db.puntuaciones.stats() // estadisticas de la colección
+
+function getSegundos(){ // funcion Javascript
+... var x = new Date();
+... return x.getSeconds();
+... }
+db.contactos.insert({nombre:"hugo", segundos: getSegundos()})
+db.contactos.insert({
+... nombre: "Mario",
+... segundos:getSegundos(),
+... _id:1
+... })
+
+prompt ="LEON>" // cambia el nombre del prompt
+host=db.serverStatus().host
+prompt=function(){return db+"@"+host+"> ";}
+
+cur = db.alumnos.find(); null; // inicia o reinicia un cursor
+cur.hasNext()
+cur.next()
+while(cur.hasNext()){var persona = cur.next();printjson(persona);} // recorre el cursor
+while(cur.hasNext()){var persona = cur.next(); printjson("El contacto " + persona.nombre);}
+
+
