@@ -1,0 +1,13 @@
+AWS (Amazon web services) - Amazon
+GCP (Google Cloud Platform)- Google
+Azure - Microsoft
+
+-CPD: Centro de Procesamiento de datos
+-Las 4 V de Big Data
+-Latencia
+-Concurrencia
+-Escalado vertical y escalado horizontal
+-ETL (Extract, Transport, Load)
+-Big Data: HADOOP, Cloudera, Spark
+docs.mongodb.com
+
