@@ -1,3 +1,3 @@
 # curso-mongoDB
 
-Ficheros generados en el curso "DISEÑO Y ADMINISTRACION DE BASE DE DATOS NOSQL:MONGODB" de Formación FEVAL.
+Ficheros del curso "DISEÑO Y ADMINISTRACION DE BASE DE DATOS NOSQL:MONGODB" de Formación FEVAL.
